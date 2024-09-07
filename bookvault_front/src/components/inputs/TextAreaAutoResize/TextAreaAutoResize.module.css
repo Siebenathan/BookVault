@@ -1,0 +1,9 @@
+.textAreaInput::-webkit-scrollbar {
+    width: 0px;
+}
+
+.textAreaInput:is(:focus, :valid) {
+    border-color: gray;
+    border-width: 2px;
+    padding: 14px;
+}

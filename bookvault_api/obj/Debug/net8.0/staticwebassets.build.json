@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "NNq1jcgtiZaGbzLqVi9xxAhYpQtbA6QfrDhbOK2ZR+o=",
+  "Source": "bookvault_api",
+  "BasePath": "_content/bookvault_api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

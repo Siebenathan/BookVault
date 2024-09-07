@@ -1,0 +1,24 @@
+images
+bookvault_api/appsettings.json
+
+# dependencies
+bookvault_front/node_modules
+bookvault_front/.pnp
+.pnp.js
+
+# testing
+bookvault_front/coverage
+
+# production
+bookvault_front/build
+
+# misc
+bookvault_front/.DS_Store
+bookvault_front/.env.local
+bookvault_front/.env.development.local
+bookvault_front/.env.test.local
+bookvault_front/.env.production.local
+
+bookvault_front/npm-debug.log*
+bookvault_front/yarn-debug.log*
+bookvault_front/yarn-error.log*

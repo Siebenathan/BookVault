@@ -1,0 +1,69 @@
+using BookVault.DTOs;
+using BookVault.Interfaces;
+using BookVault.ServiceClasses;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+
+namespace BookVault.Services;
+
+public class GoogleBookApiService : IBookGatheringInfo
+{
+    private readonly string BaseUrl = "https://www.googleapis.com/books/v1/volumes?q=";
+    private string Query;
+    public GoogleBookApiService(string bookTitle)
+    {
+        TrimAndToLower(ref bookTitle);
+        Query = bookTitle;
+    }
+    public GoogleBookApiService(string bookTitle = null, string author = null, string bookGender = null)
+    {
+        if (string.IsNullOrEmpty(bookTitle) && string.IsNullOrEmpty(author) && string.IsNullOrEmpty(bookGender))
+        {
+            throw new ArgumentException("At least one parameter must be provided: bookTitle, author, or bookGender.");
+        }
+
+        if (!string.IsNullOrEmpty(bookGender))
+        {
+            TrimAndToLower(ref bookTitle);
+            Query = bookTitle;
+        }
+
+        if (!string.IsNullOrEmpty(author))
+        {
+            Query = !string.IsNullOrEmpty(Query) ? Query += "+" : null;
+            TrimAndToLower(ref author);
+            Query = $"inauthor:{Uri.EscapeDataString(author)}";
+        }
+
+        if (!string.IsNullOrEmpty(bookGender))
+        {
+            Query = !string.IsNullOrEmpty(Query) ? Query += "+" : null;
+            TrimAndToLower(ref bookGender);
+            Query = $"subject:{Uri.EscapeDataString(bookGender)}";
+        }
+    }
+
+    public async Task<CreateBookDTO> GatherInfo()
+    {
+        var url = BaseUrl + Query;
+
+        var client = new HttpClient();
+        var response = await client.GetAsync(url);
+        var jsonString = await response.Content.ReadAsStringAsync();
+        var allRootInfo = JsonConvert.DeserializeObject<Root>(jsonString);
+
+        allRootInfo.items.Select((item) => new CreateBookDTO(item.volumeInfo.authors));
+
+
+
+        //ta funfando só arrumar o output
+
+        return volumeInfo;
+    }
+
+    private void TrimAndToLower(ref string str)
+    {
+        str = str.Trim();
+        str = str.ToLower();
+    }
+}

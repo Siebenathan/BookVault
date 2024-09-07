@@ -1,0 +1,1 @@
+public record struct OperationResultDTO(bool Sucess, string Message);
